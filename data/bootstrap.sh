@@ -2,7 +2,7 @@
 # Should be ran as root
 apt-get update
 apt-get install -y containerd
-curl -sfL https://get.k3s.io | sh -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --no-deploy traefik" sh
 
 # Kubernetes dashboard
 GITHUB_URL=https://github.com/kubernetes/dashboard/releases
