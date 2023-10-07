@@ -1,0 +1,9 @@
+grafana:
+  # Update the timezone
+  defaultDashboardsTimezone: Australia/Brisbane
+  # Set the default password
+  adminPassword: admin
+  service:
+    # Expose the Grafana port on the node
+    type: NodePort
+    targetPort: 3000
