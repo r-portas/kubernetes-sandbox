@@ -1,0 +1,64 @@
+## Lightweight kube-prometheus-stack tuned for local development
+# Keeps monitoring minimal for local clusters while exposing Grafana via NodePort.
+
+# Skip default alert rules to reduce noise in dev clusters.
+defaultRules:
+  create: false
+
+# Disable Alertmanager since we do not page/route alerts locally.
+alertmanager:
+  enabled: false
+
+# Keep Grafana with simple credentials and expose it on host:8000.
+grafana:
+  adminUser: admin
+  adminPassword: admin
+  service:
+    type: NodePort
+    port: 80
+    targetPort: 3000
+    nodePort: 30001
+  ingress:
+    enabled: false
+
+# Strip most operator bells/whistles for faster startup and lower resource needs.
+prometheusOperator:
+  admissionWebhooks:
+    enabled: false
+  tls:
+    enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 200Mi
+
+# Run a single Prometheus replica with low retention for quick iteration.
+prometheus:
+  prometheusSpec:
+    replicas: 1
+    retention: 24h
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+
+# Drop control-plane component scraping which is unavailable in managed/local clusters.
+kubeEtcd:
+  enabled: false
+
+kubeScheduler:
+  enabled: false
+
+kubeControllerManager:
+  enabled: false
+
+kubeProxy:
+  enabled: false
+
+# Keep state metrics so workload health is still visible.
+kubeStateMetrics:
+  enabled: true
+
+# Keep node exporter to grab basic host metrics.
+nodeExporter:
+  enabled: true
