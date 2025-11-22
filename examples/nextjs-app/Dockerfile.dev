@@ -1,0 +1,14 @@
+# A Dockerfile for local development
+
+FROM oven/bun:1 AS base
+
+WORKDIR /app
+
+# Copy everything over
+COPY . .
+
+RUN bun install
+
+EXPOSE 3000
+# Run the dev server
+CMD ["bun", "run", "--bun", "dev"]
