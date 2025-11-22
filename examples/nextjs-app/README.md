@@ -1,4 +1,4 @@
-# Nextjs App
+# Next.js App
 
 ## Overview
 
